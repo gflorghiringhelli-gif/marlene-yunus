@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+   <title>Marlene & Yunus · Nuestra Boda</title>
+   
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+   <div id="toast" class="toast">¡Información copiada! 📋✨</div>
+
+   <!-- CANVAS DE EXPLOSIÓN DE PÉTALOS BLANCOS -->
+   <canvas id="petalsCanvas"></canvas>
+
+   <!-- MÚSICA DE FONDO -->
+   <audio id="musicaInvitacion" preload="auto" loop>
+      <source src="img/musica.mp3" type="audio/mpeg">
+   </audio>
+
+   <div id="music-toggle" class="music-btn" onclick="toggleMusic()">
+       <i class="fa-solid fa-music"></i>
+   </div>
+   
+   <!-- INTRO VIDEO DEL SOBRE -->
+   <div id="contenedor-principal" onclick="activarInvitacion()">
+       <video id="videoSobre" playsinline muted preload="auto" poster="img/sobre.png">
+           <source src="img/1.mp4" type="video/mp4">
+       </video>
+       <div id="capa-boton">
+           <div class="boton-rosa-inicio" id="btn-toca-abrir">TOCÁ EL SELLO PARA ABRIR 💌</div>
+       </div>
+   </div>
+
+   <!-- INVITACIÓN WEB EDITORIAL -->
+   <div id="seccion-final" class="oculto">
+
+       <div class="bloque-papel-textura">
+           
+           <!-- PORTADA EN ARCO -->
+           <header class="hero-portada reveal">
+               <div class="portada-frame-inner">
+                   <img src="img/portada.png" alt="Marlene y Yunus" class="portada-img">
+                   <div class="portada-overlay">
+                       <h1 class="main-title-portada">Marlene <span class="amp-portada">&</span> Yunus</h1>
+                       <p class="title-sub-portada">NUESTRA BODA</p>
+                   </div>
+               </div>
+           </header>
+
+           <!-- SAVE THE DATE: 3 CÍRCULOS DE RASPADITA + CONTADOR -->
+           <section class="section-pad reveal text-center" id="std-section">
+               <h2 class="editorial-heading mt-10">SAVE THE DATE</h2>
+               <p class="section-sub-label">Raspá cada círculo para descubrir la fecha</p>
+
+               <!-- 3 CÍRCULOS CELESTES PARA RASPAR -->
+               <div class="scratch-circles-wrapper mt-25" id="circlesWrapper">
+                   <div class="circle-scratch-card">
+                       <div class="circle-reveal-content">
+                           <span class="circle-number">03</span>
+                           <span class="circle-label">DÍA</span>
+                       </div>
+                       <canvas class="circle-canvas" data-index="0" data-label="DÍA"></canvas>
+                   </div>
+
+                   <div class="circle-scratch-card">
+                       <div class="circle-reveal-content">
+                           <span class="circle-number">10</span>
+                           <span class="circle-label">MES</span>
+                       </div>
+                       <canvas class="circle-canvas" data-index="1" data-label="MES"></canvas>
+                   </div>
+
+                   <div class="circle-scratch-card">
+                       <div class="circle-reveal-content">
+                           <span class="circle-number">2026</span>
+                           <span class="circle-label">AÑO</span>
+                       </div>
+                       <canvas class="circle-canvas" data-index="2" data-label="AÑO"></canvas>
+                   </div>
+               </div>
+
+               <!-- CONTADOR REGRESIVO DESLIZANTE -->
+               <div class="countdown-card" id="countdownCard">
+                   <p class="countdown-title">FALTAN POCOS DÍAS</p>
+                   <div class="countdown-boxes">
+                       <div class="cd-box"><span id="cd-days">00</span><p>Días</p></div>
+                       <div class="cd-sep">:</div>
+                       <div class="cd-box"><span id="cd-hours">00</span><p>Hs</p></div>
+                       <div class="cd-sep">:</div>
+                       <div class="cd-box"><span id="cd-mins">00</span><p>Min</p></div>
+                       <div class="cd-sep">:</div>
+                       <div class="cd-box"><span id="cd-secs">00</span><p>Seg</p></div>
+                   </div>
+               </div>
+           </section>
+
+           <!-- MENSAJE DE INVITACIÓN -->
+           <section class="section-pad reveal">
+               <div class="invitarte-card text-center">
+                   <p class="invite-quote">
+                       En un mundo lleno de caminos elegimos el mismo, acompáñanos donde empieza el para siempre. Tenemos el honor de invitarte a nuestra boda
+                   </p>
+               </div>
+           </section>
+
+           <!-- GALERÍA DESLIZANTE CON FONDO CELESTE -->
+           <div class="bloque-celeste-cierre">
+               <section class="section-pad reveal text-center">
+                   <h2 class="editorial-heading" style="line-height: 1.3;">ANTES DEL<br>“SÍ, ACEPTO” 💍</h2>
+                   <p class="title-sub-cursive mt-5">Deslizá para ver las fotos</p>
+
+                   <div class="gallery-slider-wrapper mt-20">
+                       <div class="gallery-slider" id="gallerySlider">
+                           <div class="slide-item"><img src="img/foto1.png" alt="Foto 1"></div>
+                           <div class="slide-item"><img src="img/foto2.png" alt="Foto 2"></div>
+                           <div class="slide-item"><img src="img/foto3.png" alt="Foto 3"></div>
+                       </div>
+                       <div class="slider-hint mt-10">
+                           <i class="fa-solid fa-arrow-left-long"></i> Deslizá <i class="fa-solid fa-arrow-right-long"></i>
+                       </div>
+                   </div>
+               </section>
+           </div>
+
+           <!-- UBICACIONES -->
+           <section class="section-pad location-section-spacious reveal text-center">
+               <h2 class="editorial-heading">UBICACIONES</h2>
+               <p class="title-sub-cursive">Dónde celebramos</p>
+
+               <div class="venue-card-watercolor mt-25">
+                   <div class="venue-icon-wrap"><i class="fa-solid fa-church"></i></div>
+                   <h3 class="venue-title">CEREMONIA RELIGIOSA</h3>
+                   <p class="venue-time">19:00 HS</p>
+                   <p class="venue-desc">Parroquia Santísimo Sacramento de la Recoleta<br>Asunción</p>
+                   <div class="btn-group-center mt-15">
+                       <a href="https://maps.app.goo.gl/ZCdC91brw4CVZpQS8" target="_blank" class="btn btn-outline-dark"><i class="fa-solid fa-location-dot"></i> Google Maps</a>
+                   </div>
+               </div>
+
+               <div class="venue-card-watercolor mt-35">
+                   <div class="venue-icon-wrap"><i class="fa-solid fa-glass-cheers"></i></div>
+                   <h3 class="venue-title">CEREMONIA CIVIL Y RECEPCIÓN</h3>
+                   <p class="venue-time">20:00 HS</p>
+                   <p class="venue-desc">Restaurante Ese Lugar Quinta Nauar, Asunción</p>
+                   <div class="btn-group-center mt-15">
+                       <a href="https://maps.app.goo.gl/5VszsTSWAKFrU9Zf8?g_st=ac" target="_blank" class="btn btn-outline-dark"><i class="fa-solid fa-location-dot"></i> Google Maps</a>
+                   </div>
+               </div>
+           </section>
+       </div>
+
+       <!-- DRESS CODE -->
+       <div class="bloque-papel-textura">
+           <section class="section-pad reveal text-center">
+               <div class="dress-icon-head mt-10"><i class="fa-solid fa-shirt"></i></div>
+               <h2 class="editorial-heading mt-10">DRESS CODE</h2>
+               <p class="title-sub-cursive">Código de Vestimenta</p>
+
+               <p class="dress-code-subtitle">FORMAL ELEGANTE</p>
+
+               <div class="notice-box-green mt-15">
+                   <p>Por favor evitar colores <strong>blanco, negro, celeste</strong>.</p>
+               </div>
+           </section>
+
+           <!-- DETALLES DE LA BODA CON FONDO CELESTE -->
+           <div class="bloque-celeste-cierre mt-20">
+               <section class="section-pad reveal text-center">
+                   <h2 class="editorial-heading">DETALLES DE LA BODA</h2>
+                   <p class="title-sub-cursive">Para tener en cuenta</p>
+
+                   <div class="details-grid mt-20">
+                       <div class="detail-item">
+                           <i class="fa-regular fa-clock detail-icon"></i>
+                           <h4>LLEGAR PUNTUAL</h4>
+                           <p>Les pedimos puntualidad para compartir juntos cada segundo desde la ceremonia.</p>
+                       </div>
+                       <div class="detail-item">
+                           <i class="fa-solid fa-child-reaching detail-icon"></i>
+                           <h4>JÓVENES Y ADULTOS</h4>
+                           <p>Queremos que disfruten de una noche especial pensada para jóvenes y adultos.</p>
+                       </div>
+                   </div>
+               </section>
+           </div>
+
+           <!-- CITA BÍBLICA (MATEO 19:6) SOBRE FONDO BLANCO -->
+           <section class="section-pad reveal text-center">
+               <div class="bible-quote-container-sofi">
+                   <p class="bible-quote-text">
+                       "Así que ya no son dos, sino uno solo. Por tanto, lo que Dios ha unido, que no lo separe el hombre."
+                   </p>
+                   <span class="bible-quote-ref mt-10"><span class="highlight-mateo">MATEO</span> 19:6</span>
+               </div>
+           </section>
+           
+           <!-- SUGERENCIA DE REGALO -->
+           <section class="section-pad reveal text-center mt-20">
+               <div class="gift-envelope-card">
+                   <div class="envelope-seal-wrap">
+                       <i class="fa-solid fa-envelope-open-text gift-envelope-icon-alt"></i>
+                   </div>
+                   
+                   <h2 class="editorial-heading mt-15">SUGERENCIA DE REGALO</h2>
+                   <p class="title-sub-cursive">Un detalle con los novios</p>
+                   <p class="gift-text">
+                       Nuestro mejor regalo es tu presencia, pero si tu deseo es tener un detalle con nosotros, puedes hacerlo mediante transferencia bancaria.
+                   </p>
+                   <button type="button" class="btn btn-editorial mt-15" onclick="toggleGiftModal()">VER DATOS BANCARIOS</button>
+
+                   <div id="gift-modal" class="gift-modal-box hidden-element mt-15">
+                       <p><strong>Ueno Bank</strong></p>
+                       <p>Titular: Marlene Leite</p>
+                       <p>Alias: 0982073092</p>
+                       <button type="button" class="btn btn-sm btn-outline-dark mt-8" onclick="copiarAliasUeno()">
+                           <i class="fa-regular fa-copy"></i> Copiar Alias (0982073092)
+                       </button>
+
+                       <div class="separator-banco"></div>
+
+                       <p><strong>Banco Familiar</strong></p>
+                       <p>Titular: Marlene Leite</p>
+                       <p>Cuenta Nro: 32-1970772 | C.I.: 5233429</p>
+                       <button type="button" class="btn btn-sm btn-outline-dark mt-8" onclick="copiarCuentaFamiliar()">
+                           <i class="fa-regular fa-copy"></i> Copiar Cuenta (32-1970772)
+                       </button>
+                   </div>
+               </div>
+           </section>
+       </div>
+
+       <!-- CONFIRMACIÓN DE ASISTENCIA -->
+       <div class="bloque-celeste-cierre">
+           <section class="section-pad reveal text-center">
+               <h2 class="editorial-heading">RSVP</h2>
+               <p class="title-sub-cursive">Esperamos contar con vos</p>
+               
+               <p class="rsvp-deadline-light mt-15">Por favor confirmar asistencia antes del <strong>23 de Septiembre de 2026</strong></p>
+
+               <a href="https://wa.me/595982073092?text=%C2%A1Hola%21%20Confirmo%20mi%20asistencia%20a%20la%20boda%20de%20Marlene%20%26%20Yunus%20%F0%9F%A4%8D%20Nombre%20y%20Apellido%3A" class="btn btn-white-pill mt-25" target="_blank">
+                   <i class="fa-brands fa-whatsapp"></i> CONFIRMAR POR WHATSAPP
+               </a>
+           </section>
+       </div>
+
+       <!-- CIERRE Y FIRMA FINAL -->
+       <div class="bloque-papel-textura">
+           <section class="section-pad reveal text-center" style="padding-top: 50px; padding-bottom: 50px;">
+               <div class="closing-crema-divider-top"></div>
+               <p class="closing-crema-con-carino mt-20">CON CARIÑO</p>
+               <h2 class="closing-crema-couple-names mt-15">Marlene & Yunus</h2>
+               <div class="closing-date-nums mt-15">03 . 10 . 2026</div>
+               <div class="closing-crema-divider-bottom mt-20"></div>
+           </section>
+
+           <footer class="editorial-footer">
+               <p>GHISA DIGITAL · INVITACIONES DIGITALES</p>
+           </footer>
+       </div>
+
+   </div>
+
+   <script src="script.js"></script>
+</body>
+</html>
